@@ -29,15 +29,14 @@ import com.example.weather_app_1.ui.theme.returnMyColor
 import com.example.weather_app_1.R
 import androidx.compose.ui.text.font.FontWeight
 import androidx.navigation.NavController
+import com.example.weather_app_1.NavigationOnCity
 
 @RequiresApi(Build.VERSION_CODES.Q)
 @Composable
 fun CityScreen(
     navController: NavController,
     city: String,
-    //TODO Вот тут почти исправить
-    cities: List<String>,  // Список для расчёта следующего
-    currentIndex: Int) {
+    ) {
 
 
     //TODO теперь ошибка приложение падает после добавления и
@@ -101,6 +100,20 @@ fun CityScreen(
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.End
         ) {
+
+            val cities = returnListCityOrAddCity(city = "")
+
+            val currentIndex = cities.indexOf(city)
+
+            val nextIndex = (currentIndex + 1) % cities.size
+            val nextCity = cities[nextIndex]
+
+            //TODO изменения то здесь но главные измения нужно делать
+            // в NavHost. а не здесь, здесь всё без толку.
+
+            //TODO вот как-то должен быть один обший список и
+            // если произошли изменения NavHost должен это заметить.
+
             Box(
                 contentAlignment = Alignment.Center,
                 modifier = Modifier
@@ -109,9 +122,6 @@ fun CityScreen(
                     .clip(shape = RoundedCornerShape(30.dp))
                     .background(myColor.background)
                     .clickable{
-
-                        val nextIndex = (currentIndex + 1) % cities.size
-                        val nextCity = cities[nextIndex]
 
                         navController.navigate(nextCity)
 
@@ -124,11 +134,8 @@ fun CityScreen(
                     modifier = Modifier
                         .height(50.dp)
                         .width(50.dp)
-
                 )
             }
         }
-
     }
-
 }
