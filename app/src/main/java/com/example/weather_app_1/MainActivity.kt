@@ -8,6 +8,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresApi
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -30,18 +31,24 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun NavigationOnCity() {
 
-//    val cit = returnListCityOrAddCity()
-//
-//    val cities = if (cit.isEmpty()) {cit} else {emptyList<String>()}
-
-    val cities: List<String> = listOf("Paris", "Moscow", "New-York", "Tokio")
+    val cities = returnListCityOrAddCity(city = null)
 
     val navController = rememberNavController()
 
-//    if (cities.isEmpty()){
-//
-//        Text( text = "No cities yet. Add one!" )
-//        return}
+    val addCity: String = "add_city"
+
+    LaunchedEffect(cities.size) {
+        val currentRoute = navController.currentDestination?.route
+
+        if (currentRoute != null && currentRoute != addCity && !cities.contains(currentRoute)){
+            navController.navigate(cities.firstOrNull() ?: addCity)
+        }
+    }
+
+    if (cities.isEmpty()){
+
+        Text( text = "No cities yet. Add one!" )
+        return}
 
     NavHost(navController = navController, startDestination = cities[0]){
 
@@ -57,11 +64,11 @@ fun NavigationOnCity() {
             }
         }
 
-        composable("add_city") {
+        composable(addCity) {
             AddCity (
                 onAddCity = { newCity ->
                     if (newCity.isNotBlank() && !cities.contains(newCity)){
-                       // cities.add(newCity)
+                       cities.add(newCity)
                     }
                     navController.popBackStack()
                 }

@@ -18,13 +18,17 @@ sealed class Routes(val routes: String){
 }
 
 @Composable
-fun returnListCityOrAddCity(): MutableList<String>{
+fun returnListCityOrAddCity(city: String?): MutableList<String>{
 
     val cityList = remember {
         mutableStateListOf(Routes.City.routes,
             Routes.City1.routes,
             Routes.City2.routes,
             Routes.City3.routes)
+    }
+
+    if (city!=null){
+        cityList.add(city)
     }
 
     return cityList

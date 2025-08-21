@@ -31,14 +31,18 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.navigation.NavController
 
 @RequiresApi(Build.VERSION_CODES.Q)
-//@Preview(showSystemUi = true)
 @Composable
 fun CityScreen(
     navController: NavController,
     city: String,
+    //TODO Вот тут почти исправить
     cities: List<String>,  // Список для расчёта следующего
     currentIndex: Int) {
 
+
+    //TODO теперь ошибка приложение падает после добавления и
+    // нажатия на кнопку. У каждого города должны меняться цвета.
+    // Третье доработать визуал и узнать как можно дорабатывать визуал с Preview
     val myColor = returnMyColor()
 
     Column(
