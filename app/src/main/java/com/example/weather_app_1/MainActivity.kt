@@ -69,7 +69,12 @@ fun NavigationOnCity(cities: MutableList<String>) {
 
     } else{
 
-        //TODO Помощь : jetpack compose android studio kotlin NavHost отслеживать изменения в каличестве маршрутов
+        //TODO Помощь : // Наблюдаем за изменениями в стеке навигации
+        //    val navBackStackEntry by navController.currentBackStackEntryAsState()
+        //    val currentRoute = navBackStackEntry?.destination?.route // Текущий маршрут
+        //
+        //    // Количество маршрутов можно получить из истории навигации, если она доступна
+        //    val count = navController.backQueue.size // 3. Пол
 
         //TODO да и при добавлении падает. я вот тут подумал что когда я дохожу до края известного списка, я должне вернуться на MainActivity и снова получить список
 
@@ -78,6 +83,8 @@ fun NavigationOnCity(cities: MutableList<String>) {
             navController = navController,
             startDestination = cities.first(),
             route = cities.hashCode().toString()){// Ключ зависит от списка — при изменении списка NavHost
+
+
 
             cities.forEachIndexed { index, city ->
 
@@ -95,9 +102,9 @@ fun NavigationOnCity(cities: MutableList<String>) {
                         if (newCity.isNotBlank() && !cities.contains(newCity)){
                             cities.add(newCity)
 
-                            navController.navigate(newCity){
-                                popUpTo(navController.graph.startDestinationId) {inclusive = false}
-                            }
+//                            navController.navigate(newCity){
+//                                popUpTo(navController.graph.startDestinationId) {inclusive = false}
+//                            }
                         }
                         navController.popBackStack()
                     }

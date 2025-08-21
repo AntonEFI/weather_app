@@ -106,13 +106,15 @@ fun CityScreen(
             val currentIndex = cities.indexOf(city)
 
             val nextIndex = (currentIndex + 1) % cities.size
-            val nextCity = cities[nextIndex]
 
-            //TODO изменения то здесь но главные измения нужно делать
-            // в NavHost. а не здесь, здесь всё без толку.
+            var nextCity = ""
 
-            //TODO вот как-то должен быть один обший список и
-            // если произошли изменения NavHost должен это заметить.
+            if(nextIndex > cities.size){
+                nextCity = cities[currentIndex]
+            }else{
+                nextCity = cities[nextIndex]
+            }
+
 
             Box(
                 contentAlignment = Alignment.Center,
