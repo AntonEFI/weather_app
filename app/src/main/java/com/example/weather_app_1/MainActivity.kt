@@ -1,36 +1,72 @@
 package com.example.weather_app_1
 
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.annotation.RequiresApi
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.weather_app_1.Helper_Functions.AddCity
+import com.example.weather_app_1.Helper_Functions.CityScreen
 import com.example.weather_app_1.Helper_Functions.returnListCityOrAddCity
 
-import com.example.weather_app_1.ui.theme.Weather_app_1Theme
-
 class MainActivity : ComponentActivity() {
+    @RequiresApi(Build.VERSION_CODES.Q)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            //TODO Для начала будет Host из городов и они какбы будут в списке
+            NavigationOnCity()
         }
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.Q)
 @Composable
 fun NavigationOnCity() {
 
-    val citys = returnListCityOrAddCity()
+//    val cit = returnListCityOrAddCity()
+//
+//    val cities = if (cit.isEmpty()) {cit} else {emptyList<String>()}
+
+    val cities: List<String> = listOf("Paris", "Moscow", "New-York", "Tokio")
 
     val navController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = citys[0]){
+//    if (cities.isEmpty()){
+//
+//        Text( text = "No cities yet. Add one!" )
+//        return}
 
+    NavHost(navController = navController, startDestination = cities[0]){
+
+        cities.forEachIndexed { index, city ->
+
+            composable(city) {
+                CityScreen(
+                    navController = navController,
+                    city = city,
+                    cities = cities,
+                    currentIndex = index
+                )
+            }
+        }
+
+        composable("add_city") {
+            AddCity (
+                onAddCity = { newCity ->
+                    if (newCity.isNotBlank() && !cities.contains(newCity)){
+                       // cities.add(newCity)
+                    }
+                    navController.popBackStack()
+                }
+            )
+        }
     }
 
 }

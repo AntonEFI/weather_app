@@ -24,7 +24,8 @@ private val LightColorScheme = lightColorScheme(
     secondary = CyanW,
     onSecondary = WhiteW,
     tertiary = PinkWRight,
-    background = Color.Black
+    background = Color.Black,
+    outline = GrayW
 
 
     /* Other default colors to override

@@ -15,3 +15,4 @@ val CyanW = Color(0xFF42C6FF)
 val PinkW = Color(0xFFFF53DE)// Не совсем тот цвет
 val PinkWRight = Color(0xFFFB68D5)
 val WhiteW = Color(0xFFFFFFFF)
+val GrayW = Color.DarkGray
