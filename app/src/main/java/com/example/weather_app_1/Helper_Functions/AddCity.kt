@@ -23,15 +23,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.weather_app_1.ui.theme.returnMyColor
 
 @Composable
-fun AddCity( onAddCity: (String) -> Unit) {
+fun AddCity(onAddCity: (String) -> Unit) {
 
     val newCity = remember { mutableStateOf("") }
 
     val myColor = returnMyColor()
-
 
     Column(
         modifier = Modifier
@@ -72,11 +72,10 @@ fun AddCity( onAddCity: (String) -> Unit) {
                 )
             }
         )
-
         Spacer(modifier = Modifier.height(40.dp))
 
         Button(
-            onClick = {
+            onClick = { //TODO падает при моем добавлении и при переходе за границы списка
                 onAddCity(newCity.value)
             },
             modifier = Modifier

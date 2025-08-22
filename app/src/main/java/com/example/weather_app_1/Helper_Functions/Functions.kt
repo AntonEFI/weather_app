@@ -10,21 +10,15 @@ import com.example.weather_app_1.R
 
 sealed class Routes(val routes: String){
 
-    object City: Routes(routes = "Paris")
-    object City1: Routes(routes = "Moscow")
-    object City2: Routes(routes = "New-York")
-    object City3: Routes(routes = "Tokio")
-
+    object AddCity: Routes(routes = "add_city")
+    object CityWeather: Routes(routes = "city_weather")
 }
 
 @Composable
 fun returnListCityOrAddCity(city: String?): MutableList<String>{
 
     val cityList = remember {
-        mutableStateListOf(Routes.City.routes,
-            Routes.City1.routes,
-            Routes.City2.routes,
-            Routes.City3.routes)
+        mutableStateListOf("Moscow", "Paris", "Tokyo", "Rim", "New-York")
     }
 
     if (city!=null){

@@ -18,6 +18,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -29,20 +31,19 @@ import com.example.weather_app_1.ui.theme.returnMyColor
 import com.example.weather_app_1.R
 import androidx.compose.ui.text.font.FontWeight
 import androidx.navigation.NavController
-import com.example.weather_app_1.NavigationOnCity
 
 @RequiresApi(Build.VERSION_CODES.Q)
 @Composable
 fun CityScreen(
     navController: NavController,
-    city: String,
+    cities: MutableList<String>
     ) {
 
-
-    //TODO теперь ошибка приложение падает после добавления и
-    // нажатия на кнопку. У каждого города должны меняться цвета.
-    // Третье доработать визуал и узнать как можно дорабатывать визуал с Preview
     val myColor = returnMyColor()
+
+    val listCity = cities
+
+    val currentIndex = remember { mutableStateOf(0) }
 
     Column(
         modifier = Modifier
@@ -86,8 +87,8 @@ fun CityScreen(
         Spacer(modifier = Modifier.height(250.dp))
 
         Text(
-            text = city,
-            fontSize = 48.sp,
+            text = "${listCity[currentIndex.value]} || ${currentIndex.value} || ${listCity.size}",
+            fontSize = 32.sp,
             fontFamily = returnFontFamily(),
             fontWeight = FontWeight.Black
         )
@@ -101,21 +102,6 @@ fun CityScreen(
             horizontalArrangement = Arrangement.End
         ) {
 
-            val cities = returnListCityOrAddCity(city = "")
-
-            val currentIndex = cities.indexOf(city)
-
-            val nextIndex = (currentIndex + 1) % cities.size
-
-            var nextCity = ""
-
-            if(nextIndex > cities.size){
-                nextCity = cities[currentIndex]
-            }else{
-                nextCity = cities[nextIndex]
-            }
-
-
             Box(
                 contentAlignment = Alignment.Center,
                 modifier = Modifier
@@ -125,8 +111,10 @@ fun CityScreen(
                     .background(myColor.background)
                     .clickable{
 
-                        navController.navigate(nextCity)
-
+                        if (currentIndex.value+1 > listCity.size || currentIndex.value > listCity.size){
+                            currentIndex.value = 0
+                        }
+                        currentIndex.value ++
                     }
             ){
                 Icon(
